@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SELinux Fixer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="app.css">
+    <script src="../base1/cockpit.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+<div class="page">
+    <header class="page-head">
+        <div>
+            <h1>SELinux Fixer</h1>
+            <p class="muted">Finds SELinux denials in the logs of <strong id="host">this machine</strong>,
+                explains them, and fixes them when you say so.</p>
+        </div>
+        <div class="toolbar head-tools">
+            <label class="opt">Look back
+                <select id="range" class="filter narrow">
+                    <option value="24">24 hours</option>
+                    <option value="168" selected>7 days</option>
+                    <option value="720">30 days</option>
+                    <option value="0">Since boot</option>
+                </select>
+            </label>
+            <button id="scan" class="btn">Scan again</button>
+            <button id="review" class="btn primary" disabled>Review &amp; fix</button>
+        </div>
+    </header>
+
+    <div id="alert" class="alert" hidden></div>
+    <div id="banners"></div>
+    <div id="summary" class="summary"></div>
+
+    <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="open" aria-selected="true">Problems <span class="count" id="n-open"></span></button>
+        <button role="tab" data-tab="fixed" aria-selected="false">Fixed <span class="count" id="n-fixed"></span></button>
+        <button role="tab" data-tab="ignored" aria-selected="false">Ignored <span class="count" id="n-ignored"></span></button>
+        <button role="tab" data-tab="history" aria-selected="false">History</button>
+    </nav>
+    <section id="body" class="tab-body"><div class="loading">Reading the logs…</div></section>
+</div>
+
+<!-- Asked once per session when problems are found -->
+<div id="prompt" class="modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="prompt-title">
+        <h2 id="prompt-title"></h2>
+        <p id="prompt-text"></p>
+        <div class="modal-actions">
+            <button id="prompt-later" class="btn">Not now</button>
+            <button id="prompt-ok" class="btn primary">Review and fix</button>
+        </div>
+    </div>
+</div>
+
+<!-- Step-by-step review -->
+<div id="wizard" class="modal" hidden>
+    <div class="modal-box wide" role="dialog" aria-modal="true" aria-labelledby="wiz-title">
+        <div class="wiz-head">
+            <span id="wiz-step" class="muted small"></span>
+            <button id="wiz-close" class="link" aria-label="Close">×</button>
+        </div>
+        <h2 id="wiz-title"></h2>
+        <div id="wiz-body"></div>
+        <div class="modal-actions">
+            <button id="wiz-ignore" class="btn danger-outline">Ignore this problem</button>
+            <span class="spacer"></span>
+            <button id="wiz-skip" class="btn">Skip</button>
+            <button id="wiz-apply" class="btn primary">Apply fix</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirm" class="modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <h2 id="confirm-title"></h2>
+        <p id="confirm-text"></p>
+        <div class="modal-actions">
+            <button id="confirm-cancel" class="btn">Cancel</button>
+            <button id="confirm-ok" class="btn danger"></button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

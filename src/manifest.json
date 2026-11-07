@@ -1,0 +1,19 @@
+{
+    "version": 0,
+    "name": "selinux-fixer",
+    "requires": {
+        "cockpit": "300"
+    },
+    "tools": {
+        "index": {
+            "label": "SELinux Fixer",
+            "order": 65,
+            "docs": [],
+            "keywords": [
+                {
+                    "matches": ["selinux", "avc", "denied", "denial", "audit", "security", "label", "restorecon", "boolean", "policy"]
+                }
+            ]
+        }
+    }
+}

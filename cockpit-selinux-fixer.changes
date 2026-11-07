@@ -1,0 +1,12 @@
+-------------------------------------------------------------------
+Fri Nov  6 20:30:00 UTC 2026 - Neal Haas <neal.haas@gmail.com>
+
+- Initial package, version 0.1.0
+  * Cockpit page and selinux-fixer CLI that read SELinux denials
+    from the audit log and journal, explain them and fix them on
+    request (restorecon, file context rules, port labels,
+    booleans, relabel, local policy module as a last resort)
+  * Undo for booleans, modules, port labels and file context rules
+  * Support for Tumbleweed, Leap 16 and transactional systems
+    (Kalpa, Aeon, MicroOS)
+  * Bugzilla report links for the running distribution
