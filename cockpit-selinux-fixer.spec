@@ -16,7 +16,7 @@ Version:        0.1.0
 Release:        0
 Summary:        Cockpit page that finds and fixes SELinux denials
 License:        GPL-3.0-or-later
-URL:            https://github.com/GITHUB_USER/cockpit-selinux-fixer
+URL:            https://github.com/nhaas11/cockpit-selinux-fixer
 Source0:        %{name}-%{version}.tar.gz
 BuildRequires:  make
 BuildRequires:  python3
