@@ -143,18 +143,30 @@ make rpm                  # dist/noarch/cockpit-selinux-fixer-*.rpm and a source
 
 ### Open Build Service
 
-`make obs` puts the three files an OBS package needs in `dist/obs/`:
-the source tarball, `cockpit-selinux-fixer.spec` and
-`cockpit-selinux-fixer.changes`. Upload them to your OBS package, or with `osc`:
+Each release is a GitHub release with the source tarball attached, and the
+spec's `Source0` points at it. An OBS package therefore needs only three
+files from this repository: `cockpit-selinux-fixer.spec`,
+`cockpit-selinux-fixer.changes` and `_service`. The `_service` file makes
+OBS download the tarball from the release.
 
 ```sh
 osc checkout home:<user> && cd home:<user>
 osc mkpac cockpit-selinux-fixer && cd cockpit-selinux-fixer
-cp /path/to/dist/obs/* . && osc add * && osc commit -m "Initial package"
+cp /path/to/repo/{cockpit-selinux-fixer.spec,cockpit-selinux-fixer.changes,_service} .
+osc add * && osc commit -m "Initial package"
 ```
 
-To release a new version, change `Version:` in the spec and `VERSION` in the
-Makefile, add an entry with `osc vc`, and run `make obs` again.
+`make obs` also collects these files, plus the tarball, in `dist/obs/` if you
+prefer to upload the tarball yourself.
+
+To release a new version:
+
+1. Change `Version:` in the spec and `VERSION` in the Makefile, and add an
+   entry to the `.changes` file (`osc vc`).
+2. `make dist`, commit, then tag and publish the release with the tarball:
+   `git tag v<version> && git push --tags &&
+   gh release create v<version> dist/cockpit-selinux-fixer-<version>.tar.gz`
+3. Copy the new spec and `.changes` into the OBS package and `osc commit`.
 
 ## Tested scenarios
 

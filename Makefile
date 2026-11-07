@@ -40,7 +40,7 @@ devel-uninstall:
 dist: check
 	mkdir -p dist
 	tar --transform 's,^,$(NAME)-$(VERSION)/,' -czf dist/$(NAME)-$(VERSION).tar.gz \
-	    Makefile README.md LICENSE $(NAME).spec $(NAME).changes $(SOURCES) tests/sample-audit.log
+	    Makefile README.md LICENSE _service $(NAME).spec $(NAME).changes $(SOURCES) tests/sample-audit.log
 	@echo dist/$(NAME)-$(VERSION).tar.gz
 
 rpm: dist
@@ -48,10 +48,11 @@ rpm: dist
 	    --define "_srcrpmdir $(CURDIR)/dist" $(NAME).spec
 	@find dist -name '*.rpm'
 
-# Files to upload to an OBS package: tarball, spec and changes.
+# Files for an OBS package: spec, changes and _service (OBS downloads the
+# tarball from the GitHub release); the tarball is copied too for manual upload.
 obs: dist
 	mkdir -p dist/obs
-	cp dist/$(NAME)-$(VERSION).tar.gz $(NAME).spec $(NAME).changes dist/obs/
+	cp dist/$(NAME)-$(VERSION).tar.gz $(NAME).spec $(NAME).changes _service dist/obs/
 	@ls -1 dist/obs
 
 clean:

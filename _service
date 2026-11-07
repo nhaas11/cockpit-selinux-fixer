@@ -1,0 +1,4 @@
+<services>
+  <!-- Downloads Source0 from the GitHub release named in the spec -->
+  <service name="download_files"/>
+</services>
